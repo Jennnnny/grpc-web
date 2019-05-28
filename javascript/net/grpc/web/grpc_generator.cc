@@ -1350,6 +1350,7 @@ class GrpcCodeGenerator : public CodeGenerator {
         printer.Print(vars, "goog.require('grpc.web.ClientReadableStream');\n");
         printer.Print(vars, "goog.require('grpc.web.Error');\n");
         printer.Print(vars, "goog.require('grpc.web.MethodDescriptor');\n");
+        printer.Print(vars, "goog.require('grpc.web.MethodType');\n");
 
         PrintMessagesDeps(&printer, file);
         printer.Print("goog.scope(function() {\n\n");
@@ -1392,15 +1393,14 @@ class GrpcCodeGenerator : public CodeGenerator {
         // Client streaming is not supported yet
         if (!method->client_streaming()) {
           if (method->server_streaming()) {
-            vars["method_type"] =
-                "grpc.web.MethodDescriptor.MethodType.SERVER_STREAMING";
+            vars["method_type"] = "grpc.web.MethodType.SERVER_STREAMING";
             PrintMethodInfo(&printer, vars);
             vars["client_type"] = "Client";
             PrintServerStreamingCall(&printer, vars);
             vars["client_type"] = "PromiseClient";
             PrintServerStreamingCall(&printer, vars);
           } else {
-            vars["method_type"] = "grpc.web.MethodDescriptor.MethodType.UNARY";
+            vars["method_type"] = "grpc.web.MethodType.UNARY";
             PrintMethodInfo(&printer, vars);
             PrintUnaryCall(&printer, vars);
             PrintPromiseUnaryCall(&printer, vars);

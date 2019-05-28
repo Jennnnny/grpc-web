@@ -112,6 +112,16 @@ closure_js_library(
     name = "methoddescriptor",
     srcs = [
         "methoddescriptor.js",
+    ],    
+    deps = [
+        ":methodtype",
+    ],
+)
+
+closure_js_library(
+    name = "methodtype",
+    srcs = [
+        "methodtype.js",
     ],
 )
 
