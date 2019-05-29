@@ -40,4 +40,12 @@ describe('grpc-web export test', function() {
       UNKNOWN: 2
     });
   });
+
+  it('should have grpc MethodType exported', function() {
+    assert.deepEqual(grpc.web.MethodType, {
+      UNARY: 'unary',
+      SERVER_STREAMING: 'server_streaming'
+    });
+  });
+  
 });
