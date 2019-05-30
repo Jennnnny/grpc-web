@@ -1061,6 +1061,8 @@ void PrintPromiseServiceConstructor(Printer* printer,
 }
 
 void PrintMethodInfo(Printer* printer, std::map<string, string> vars) {
+  printer->Print(vars, "\n");
+  
   // Print MethodDescriptor.
   printer->Print(vars,
                  "/**\n"
@@ -1075,7 +1077,7 @@ void PrintMethodInfo(Printer* printer, std::map<string, string> vars) {
   printer->Print(vars,
                  "'/$package_dot$$service_name$/$method_name$',\n"
                  "$method_type$,\n"
-                 "proto.$in$,\n");
+                 "$in_type$,\n");
   printer->Print(vars,
                  "$out_type$,\n"
                  "/** @param {!proto.$in$} request */\n"
@@ -1386,8 +1388,11 @@ class GrpcCodeGenerator : public CodeGenerator {
           // of the global name.
           vars["out_type"] = ModuleAlias(method->output_type()->file()->name())
                              + GetNestedMessageName(method->output_type());
+          vars["in_type"] = ModuleAlias(method->input_type()->file()->name()) +
+                            GetNestedMessageName(method->input_type());
         } else {
-          vars["out_type"] = "proto."+method->output_type()->full_name();
+          vars["out_type"] = "proto." + method->output_type()->full_name();
+          vars["in_type"] = "proto." + method->input_type()->full_name();
         }
 
         // Client streaming is not supported yet
